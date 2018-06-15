@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //@RestController 这是response 会不走jsp页面，转变成字符串返回
 public class HelloController {
 
+
+
     @RequestMapping("/index")
     public String index(){
         return "index";
     }
+
+
 }
