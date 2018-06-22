@@ -1,7 +1,5 @@
 package com.kd.shequ;
 
-import java.util.Arrays;
-
 /**
  * 维权
  *
@@ -39,6 +37,6 @@ public class Weiquan {
     }
 
     public static void main(String[] args) {
-        Arrays.stream(TitleEnum.values()).forEach(o-> { if(o.getKey().equals("274"))System.out.println(o.getName());});
+
     }
 }

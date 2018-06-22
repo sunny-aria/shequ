@@ -1,6 +1,6 @@
 package com.kd.shequ.model;
 
-public class Adress {
+public class Address {
     private Integer id;
 
     private String userName;

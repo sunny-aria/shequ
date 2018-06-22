@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kd.shequ.mapper.AdressMapper" >
-  <resultMap id="BaseResultMap" type="com.kd.shequ.model.Adress" >
+<mapper namespace="com.kd.shequ.mapper.AddressMapper" >
+  <resultMap id="BaseResultMap" type="com.kd.shequ.model.Address" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
   </resultMap>
@@ -18,11 +18,11 @@
     delete from tb_addr
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.kd.shequ.model.Adress" >
+  <insert id="insert" parameterType="com.kd.shequ.model.Address" >
     insert into tb_addr (id, user_name)
     values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.kd.shequ.model.Adress" >
+  <insert id="insertSelective" parameterType="com.kd.shequ.model.Address" >
     insert into tb_addr
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -41,7 +41,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.kd.shequ.model.Adress" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.kd.shequ.model.Address" >
     update tb_addr
     <set >
       <if test="userName != null" >
@@ -50,9 +50,13 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.kd.shequ.model.Adress" >
+  <update id="updateByPrimaryKey" parameterType="com.kd.shequ.model.Address" >
     update tb_addr
     set user_name = #{userName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <select id="queryAllList" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from tb_addr
+    </select>
 </mapper>
