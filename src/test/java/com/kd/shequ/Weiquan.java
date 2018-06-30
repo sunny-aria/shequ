@@ -1,5 +1,7 @@
 package com.kd.shequ;
 
+import java.math.BigDecimal;
+
 /**
  * 维权
  *
@@ -36,7 +38,11 @@ public class Weiquan {
         }
     }
 
-    public static void main(String[] args) {
 
+
+    public static void main(String[] args) {
+        Double val = new Double(0.425566);
+        Double res = new BigDecimal(val.toString()).setScale(4,BigDecimal.ROUND_HALF_UP).doubleValue();
+        System.out.println(res);
     }
 }
