@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Component
 public class ScheduleTask {
 
-    @Scheduled(fixedRate=5000)
+//    @Scheduled(fixedRate=5000)
     public void currentTime(){
         System.out.println("当前时间："+ LocalDateTime.now().toString());
     }
