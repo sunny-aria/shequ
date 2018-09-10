@@ -41,8 +41,10 @@ public class Weiquan {
 
 
     public static void main(String[] args) {
-        Double val = new Double(0.425566);
-        Double res = new BigDecimal(val.toString()).setScale(4,BigDecimal.ROUND_HALF_UP).doubleValue();
-        System.out.println(res);
+//        Double val = new Double(0.425566);
+//        Double res = new BigDecimal(val.toString()).setScale(4,BigDecimal.ROUND_HALF_UP).doubleValue();
+//        System.out.println(res);
+        int count = (int) Math.ceil(10 / 3);
+        System.out.println(count);
     }
 }

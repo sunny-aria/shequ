@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -26,6 +27,7 @@ public class FileController {
     private static String path ="d:/ftest/";
     private static int MAX_THREAD_SIZE =5;
     private static ExecutorService executorService = Executors.newFixedThreadPool(MAX_THREAD_SIZE);
+    private CountDownLatch latch = new CountDownLatch(MAX_THREAD_SIZE);
 
     @RequestMapping("/toUpload")
     public String toUpload(){
@@ -69,18 +71,16 @@ public class FileController {
                     long subFileSize = fileSize/MAX_THREAD_SIZE;
                     long lastSize = fileSize-subFileSize*MAX_THREAD_SIZE;
                     for(int j=0;j<MAX_THREAD_SIZE;j++){
+                        String subFileName = new StringBuffer(path).append(fileName).append("_").append(j).toString();
                         FileInputStream inputStream = (FileInputStream) file.getInputStream();
+                        /*
                         long startIndex = j*subFileSize;
                         long eachFileSize = subFileSize;
                         if(j==4){
                             eachFileSize+=lastSize;
                         }
-                        String subFileName = new StringBuffer(path).append(fileName).append("_").append(j).toString();
                         File subFile = new File(subFileName);
-                        long subFileExistsSize = 0;
-                        if(subFile.exists()){
-                            subFileExistsSize = subFile.length();
-                        }else{
+                        if(!subFile.exists()){
                             subFile.createNewFile();
                         }
 
@@ -89,15 +89,18 @@ public class FileController {
                         byte[] b = new byte[(int) eachFileSize];
                         fout.write(b,0,inputStream.read(b));
                         fout.close();
-                        inputStream.close();
+                        inputStream.close();*/
+                        executorService.submit(new SplitRunnable((int)subFileSize,(int)(j*subFileSize),subFileName,inputStream,j,latch));
                     }
+                    latch.await();
+                    executorService.shutdown();
                     /** 拷贝临时文件到目标文件*/
                     copyFile(path+fileName,MAX_THREAD_SIZE);
                 }
 
              }
         } catch (Exception e) {
-           log.error("文件上传出现问题.错误信息：{}",e);
+           log.error("文件上传出现问题.错误信息：",e);
         }
         return "index";
     }
@@ -117,6 +120,43 @@ public class FileController {
             log.error("文件上传出现问题.错误信息：{}",e);
         } catch (IOException e) {
             log.error("文件上传出现问题.错误信息：{}",e);
+        }
+    }
+
+    private class SplitRunnable implements Runnable {
+        int byteSize;
+        String partFileName;
+        FileInputStream inputStream;
+        int startPos;
+        int threadNum;
+        CountDownLatch latch;
+
+        public SplitRunnable(int byteSize, int startPos, String partFileName,
+                             FileInputStream originFile,int threadNum,CountDownLatch latch) {
+            this.startPos = startPos;
+            this.byteSize = byteSize;
+            this.partFileName = partFileName;
+            this.inputStream = originFile;
+            this.threadNum = threadNum;
+            this.latch =latch;
+        }
+
+        public void run() {
+            OutputStream os;
+            try {
+
+                byte[] b = new byte[byteSize];
+                inputStream.skip(startPos);// 移动指针到每“段”开头
+                int s = inputStream.read(b);
+                os = new FileOutputStream(partFileName);
+                os.write(b, 0, s);
+                os.flush();
+                os.close();
+                inputStream.close();
+            } catch (IOException e) {
+                log.error("多线程-{} 操作出现异常,",threadNum,e.getMessage());
+            }
+            latch.countDown();
         }
     }
 }
