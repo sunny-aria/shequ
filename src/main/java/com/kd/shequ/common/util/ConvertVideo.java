@@ -119,11 +119,7 @@ public class ConvertVideo {
         commend.add("-o");
         commend.add(outputPath + "a.AVI");
         try {
-            ProcessBuilder builder = new ProcessBuilder();
-            Process process = builder.command(commend).redirectErrorStream(true).start();
-            new PrintStream(process.getInputStream());
-            new PrintStream(process.getErrorStream());
-            process.waitFor();
+            processCommand(commend);
             return outputPath + "a.AVI";
         } catch (Exception e) {
             e.printStackTrace();
@@ -161,10 +157,7 @@ public class ConvertVideo {
 //                    + outputPath + "a.flv");
 
             // 方案2
-            Process videoProcess = new ProcessBuilder(command).redirectErrorStream(true).start();
-
-
-            videoProcess.waitFor();
+            processCommand(command);
 
             return true;
         } catch (Exception e) {
@@ -204,19 +197,23 @@ public class ConvertVideo {
 //                + outputPath + "a.flv");
 
             // 方案2
-            Process videoProcess = new ProcessBuilder(command).redirectErrorStream(true).start();
-
-/*            new PrintStream(videoProcess.getErrorStream()).start();
-
-            new PrintStream(videoProcess.getInputStream()).start();*/
-
-            videoProcess.waitFor();
+            processCommand(command);
 
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private static void processCommand(List command) throws InterruptedException, IOException {
+        Process videoProcess = new ProcessBuilder(command).redirectErrorStream(true).start();
+
+        new PrintStream(videoProcess.getErrorStream()).start();
+
+        new PrintStream(videoProcess.getInputStream()).start();
+
+        videoProcess.waitFor();
     }
 }
 
