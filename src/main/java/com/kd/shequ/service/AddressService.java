@@ -1,8 +1,8 @@
 package com.kd.shequ.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.kd.shequ.model.Address;
-
-import java.util.List;
 
 /**
  * 地址管理
@@ -11,5 +11,5 @@ import java.util.List;
  * @create 2018/6/22 10:42
  **/
 public interface AddressService {
-    List<Address> queryAllAdreeTest(int pageNum);
+    PageInfo<Address> queryAllAdreeTest(int pageNum);
 }

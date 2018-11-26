@@ -1,5 +1,6 @@
 package com.kd.shequ.mapper;
 
+import com.github.pagehelper.Page;
 import com.kd.shequ.model.Address;
 
 import java.util.List;
@@ -17,5 +18,5 @@ public interface AddressMapper {
 
     int updateByPrimaryKey(Address record);
 
-    List<Address> queryAllList();
+    Page<Address> queryAllList();
 }

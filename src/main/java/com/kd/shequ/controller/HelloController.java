@@ -2,6 +2,8 @@ package com.kd.shequ.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.kd.shequ.common.exception.BusinessException;
 import com.kd.shequ.model.Address;
 import com.kd.shequ.request.PageRequest;
@@ -36,7 +38,7 @@ public class HelloController {
     @ResponseBody
     @RequestMapping("/address")
     public String address(PageRequest page){
-        List<Address> list = addressService.queryAllAdreeTest(page.getPageNum());
+        PageInfo<Address> list = addressService.queryAllAdreeTest(page.getPageNum());
         log.info(JSONObject.toJSONString(list));
         return JSON.toJSONString(list);
     }

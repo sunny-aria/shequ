@@ -105,7 +105,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-            <!--mybatis generator plugin -->
+            <!--mybatis generator plugin
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
@@ -136,7 +136,7 @@
                         <scope>runtime</scope>
                     </dependency>
                 </dependencies>
-            </plugin>
+            </plugin>-->
 		</plugins>
 	</build>
 

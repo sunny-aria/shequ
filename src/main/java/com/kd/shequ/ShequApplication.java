@@ -12,7 +12,7 @@ import org.springframework.util.unit.DataSize;
 import javax.servlet.MultipartConfigElement;
 
 @Configuration
-@EnableScheduling
+//@EnableScheduling
 @SpringBootApplication
 @MapperScan("com.kd.shequ.mapper")
 public class ShequApplication {
@@ -35,6 +35,5 @@ public class ShequApplication {
 		// 设置总上传数据总大小
 		factory.setMaxRequestSize(DataSize.parse("1024MB"));
 		return factory.createMultipartConfig();
-
 	}
 }

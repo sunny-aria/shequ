@@ -1,6 +1,8 @@
 package com.kd.shequ.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.kd.shequ.mapper.AddressMapper;
 import com.kd.shequ.model.Address;
 import com.kd.shequ.service.AddressService;
@@ -20,8 +22,10 @@ public class AddressServiceImpl implements AddressService {
     @Resource
     private AddressMapper addressMapper;
     @Override
-    public List<Address> queryAllAdreeTest(int pageNum) {
+    public PageInfo<Address> queryAllAdreeTest(int pageNum) {
         PageHelper.startPage(pageNum,10);
-        return addressMapper.queryAllList();
+        List<Address> list = addressMapper.queryAllList();
+        PageInfo page = new PageInfo(list);
+        return page;
     }
 }
